@@ -1,7 +1,15 @@
 from django.shortcuts import render
+from django.forms import modelform_factory
 
 from .models import Company, JobApp, JobAppStep, Contact
-from .models import CompanyForm, JobAppForm, JobAppStepForm, ContactForm
+
+### FORM CLASSES ###
+CompanyForm = modelform_factory(Company, fields='__all__')
+JobAppForm = modelform_factory(JobApp, fields='__all__')
+JobAppStepForm = modelform_factory(JobAppStep, fields='__all__')
+ContactForm = modelform_factory(Contact, fields='__all__')
+
+### VIEWS ###
 
 def index(request):
     companies = Company.objects

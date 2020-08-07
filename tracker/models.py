@@ -23,7 +23,7 @@ ROLES = [
 ]
 
 
-### MODELS FOR DATABASE AND FORMS ###
+### MODELS FOR DATABASE ###
 
 class Company(models.Model):
     name = models.CharField(max_length=75)
@@ -33,12 +33,6 @@ class Company(models.Model):
     def __str__(self):
         return self.name
 
-class CompanyForm(ModelForm):
-    class Meta:
-        model = Company
-        fields = '__all__'
-
-
 class JobApp(models.Model):
     company = models.ForeignKey(Company, on_delete=models.CASCADE)
     position = models.CharField(max_length=200, blank=True)
@@ -46,12 +40,6 @@ class JobApp(models.Model):
     cover_letter = models.TextField(blank=True)
     other_material = models.TextField(blank=True)
     notes = models.TextField(blank=True)
-
-class JobAppForm(ModelForm):
-    class Meta:
-        model = JobApp
-        fields = '__all__'
-
 
 class JobAppStep(models.Model):
     job_app = models.ForeignKey(JobApp, on_delete=models.CASCADE)
@@ -61,20 +49,9 @@ class JobAppStep(models.Model):
     def __str__(self):
         return self.step
 
-class JobAppStepForm(ModelForm):
-    class Meta:
-        model = JobAppStep
-        fields = '__all__'
-
-
 class Contact(models.Model):
     company = models.ForeignKey(Company, on_delete=models.CASCADE)
     name = models.TextField()
     role = models.CharField(max_length=50, choices=ROLES, default='recr')
     def __str__(self):
         return self.name
-
-class ContactForm(ModelForm):
-    class Meta:
-        model = Contact
-        fields = '__all__'
