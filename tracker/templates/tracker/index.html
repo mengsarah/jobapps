@@ -10,10 +10,26 @@
     <script src="{% static 'tracker/jquery.js' %}"></script>
 </head>
 <body>
-    {% for form in forms %}
-    <table>
-        {{ form }}
-    </table>
+        {% for form in forms %}
+        <form method="POST" action="{% url 'tracker:add_new' %}">
+            {% csrf_token %}
+            <input type="hidden" name="form-type" value="type-{{ form.2 }}">
+            <fieldset>
+                <legend>{{ form.0 }}</legend>
+                {% for field in form.1 %}
+                    <div>{{ field.label_tag }} {{ field }}</div>
+                {% endfor %}
+                <input type="submit" value="Add">
+            </fieldset>
+        </form>
+        {% endfor %}
+    
+    <div>
+    {% for company in companies %}
+        <p>{{ company }}</p>
+    {% empty %}
+        <p>no companies yet</p>
     {% endfor %}
+    </div>
 </body>
 </html>
