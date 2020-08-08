@@ -30,6 +30,8 @@
     <div>
     {% for company in companies %}
         <p>{{ company }}</p>
+        <button class="ajax-contacts" value="{{ company.id }}">Contacts</button>
+        <div id="contacts-{{ company }}"></div>
     {% empty %}
         <p>no companies yet</p>
     {% endfor %}
@@ -37,6 +39,10 @@
 
     <script type="text/javascript">
         $(document).ready(function() {
+            // can we jQuery? (because $(document).ready() already uses jQuery)
+            // alert("OOGEDY BOOGEDY");
+
+            /*** COLLAPSIBLE FUNCTIONALITY ***/
             function toggleCollapsible() {
                 var content = this.nextElementSibling;
                 if (content.style.display === "block") {
@@ -51,6 +57,19 @@
             var collapsible_toggles = document.getElementsByClassName("collapsible-toggle");
             for (var i = 0; i < collapsible_toggles.length; i++) {
                 collapsible_toggles[i].addEventListener("click", toggleCollapsible);
+            }
+
+
+            /*** AJAX ***/
+            function loadContacts(params) {
+                var content = this.nextElementSibling;
+                $(content).load("contacts/"+this.value);
+            }
+
+            // bind click event handler to contact toggles
+            var contact_toggles = document.getElementsByClassName("ajax-contacts");
+            for (var i = 0; i < contact_toggles.length; i++) {
+                contact_toggles[i].addEventListener("click", loadContacts);
             }
         });
     </script>

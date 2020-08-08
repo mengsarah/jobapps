@@ -1,5 +1,6 @@
 from django.shortcuts import render, redirect
 from django.forms import modelform_factory
+from django.http import JsonResponse
 
 from .models import Company, JobApp, JobAppStep, Contact
 
@@ -8,6 +9,13 @@ CompanyForm = modelform_factory(Company, fields='__all__')
 JobAppForm = modelform_factory(JobApp, fields='__all__')
 JobAppStepForm = modelform_factory(JobAppStep, fields='__all__')
 ContactForm = modelform_factory(Contact, fields='__all__')
+
+### VIEWS FOR AJAX ###
+
+def get_contacts(request, company):
+    if company:
+        contacts = list(Contact.objects.filter(company=company).values())
+        return JsonResponse({'contacts': contacts})
 
 ### VIEWS FOR POST ###
 
