@@ -10,6 +10,8 @@
     <script src="{% static 'tracker/jquery.js' %}"></script>
 </head>
 <body>
+    <button class="collapsible-toggle">Show fields to add something</button>
+    <div class="collapsible">
         {% for form in forms %}
         <form method="POST" action="{% url 'tracker:add_new' %}">
             {% csrf_token %}
@@ -23,6 +25,7 @@
             </fieldset>
         </form>
         {% endfor %}
+    </div>
     
     <div>
     {% for company in companies %}
@@ -31,5 +34,25 @@
         <p>no companies yet</p>
     {% endfor %}
     </div>
+
+    <script type="text/javascript">
+        $(document).ready(function() {
+            function toggleCollapsible() {
+                var content = this.nextElementSibling;
+                if (content.style.display === "block") {
+                    content.style.display = "none";
+                }
+                else {
+                    content.style.display = "block";
+                }
+            }
+            
+            // bind click event handler to display toggle buttons
+            var collapsible_toggles = document.getElementsByClassName("collapsible-toggle");
+            for (var i = 0; i < collapsible_toggles.length; i++) {
+                collapsible_toggles[i].addEventListener("click", toggleCollapsible);
+            }
+        });
+    </script>
 </body>
 </html>

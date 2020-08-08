@@ -5,3 +5,7 @@ body {
 label {
     font-weight: bold;
 }
+
+.collapsible {
+    display: none;
+}
