@@ -1,4 +1,4 @@
-from django.shortcuts import render
+from django.shortcuts import render, redirect
 from django.forms import modelform_factory
 
 from .models import Company, JobApp, JobAppStep, Contact
@@ -9,7 +9,39 @@ JobAppForm = modelform_factory(JobApp, fields='__all__')
 JobAppStepForm = modelform_factory(JobAppStep, fields='__all__')
 ContactForm = modelform_factory(Contact, fields='__all__')
 
-### VIEWS ###
+### VIEWS FOR POST ###
+
+def add_new(request):
+    if request.method == 'POST':
+        data = request.POST
+        if data['form-type'] == 'type-cp':
+            new_company = Company()
+            new_company.name = data['name']
+            new_company.full_name = data['full_name']
+            new_company.about = data['about']
+            new_company.website = data['website']
+            new_company.save()
+        elif data['form-type'] == 'type-ja':
+            new_job_app = JobApp(company_id = data['company'])
+            new_job_app.position = data['position']
+            new_job_app.resume = data['resume']
+            new_job_app.cover_letter = data['cover_letter']
+            new_job_app.other_material = data['other_material']
+            new_job_app.notes = data['notes']
+            new_job_app.save()
+        elif data['form-type'] == 'type-jas':
+            new_job_app_step = JobAppStep(job_app_id = data['job_app'])
+            new_job_app_step.step = data['step']
+            new_job_app_step.date = data['date']
+            new_job_app_step.done = data['done']
+            new_job_app_step.save()
+        elif data['form-type'] == 'type-ct':
+            new_contact = Contact(company_id = data['company'])
+            new_contact.name = data['name']
+            new_contact.role = data['role']
+            new_contact.save()
+        return redirect("tracker:index")
+
 ### VIEWS FOR USERS ###
 
 def index(request):
