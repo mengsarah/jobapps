@@ -30,6 +30,8 @@ class Company(models.Model):
     full_name = models.CharField(max_length=200)
     about = models.TextField()
     website = models.CharField(max_length=200, blank=True)
+    class Meta:
+        verbose_name_plural = "companies"
     def __str__(self):
         return self.name
 
@@ -51,7 +53,7 @@ class JobAppStep(models.Model):
 
 class Contact(models.Model):
     company = models.ForeignKey(Company, on_delete=models.CASCADE)
-    name = models.TextField()
+    name = models.CharField(max_length=200)
     role = models.CharField(max_length=50, choices=ROLES, default='recr')
     def __str__(self):
         return self.name
