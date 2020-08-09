@@ -41,12 +41,14 @@ def add_new(request):
             new_job_app_step = JobAppStep(job_app_id = data['job_app'])
             new_job_app_step.step = data['step']
             new_job_app_step.date = data['date']
-            new_job_app_step.done = data['done']
+            new_job_app_step.done = bool(data['done'])
             new_job_app_step.save()
         elif data['form-type'] == 'type-ct':
             new_contact = Contact(company_id = data['company'])
             new_contact.name = data['name']
             new_contact.role = data['role']
+            new_contact.email = data['email']
+            new_contact.phone = data['phone']
             new_contact.save()
         return redirect("tracker:index")
 
@@ -64,4 +66,4 @@ def index(request):
         ('Job App Step', form_jas, 'jas'),
         ('Contact', form_ct, 'ct')
     ]
-    return render(request, "tracker/index.html", {'forms': forms, 'companies': Company.objects.all(),'steps': JobAppStep.objects.all()})
+    return render(request, "tracker/index.html", {'forms': forms, 'companies': Company.objects.all(), 'steps': JobAppStep.objects.all()})
