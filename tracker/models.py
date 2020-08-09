@@ -57,5 +57,7 @@ class Contact(models.Model):
     company = models.ForeignKey(Company, on_delete=models.CASCADE)
     name = models.CharField(max_length=200)
     role = models.CharField(max_length=50, choices=ROLES, default='recr')
+    email = models.CharField(max_length=200, blank=True)
+    phone = models.CharField(max_length=200, blank=True)
     def __str__(self):
         return self.name + " at " + self.company.__str__()
