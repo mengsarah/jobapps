@@ -28,12 +28,12 @@
     </div>
     
     <div>
-    {% for company in companies %}
-        <p>{{ company }}</p>
-        <button class="ajax-contacts" value="{{ company.id }}">Contacts</button>
+    {% for step in steps %}
+        <p>{{ step }}</p>
+        <button class="ajax-contacts" value="{{ step.job_app.company.id }}" ajax-contacts-url="{% url 'tracker:get_contacts' step.job_app.company.id %}">Contacts for {{ step.job_app.company }}</button>
         <div id="contacts-{{ company }}"></div>
     {% empty %}
-        <p>no companies yet</p>
+        <p>no steps taken yet</p>
     {% endfor %}
     </div>
 
