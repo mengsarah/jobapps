@@ -2,7 +2,7 @@
 $(document).ready(function() {
     function loadContacts(params) {
         // this (caller) is a button
-        var content = this.nextElementSibling;
+        var container = this.nextElementSibling;
         $.ajax({
             url: $(this).attr("ajax-contacts-url"),
             success: function(data) {
@@ -10,17 +10,19 @@ $(document).ready(function() {
                 // and data['contacts'] is:
                 // a list of Contact objects in the form of json objects
                 contacts = data['contacts'];
+                var content = "";
                 for (var i = 0; i < contacts.length; i++) {
                     // contacts[i] is a json-ified Contact object
                     var person = contacts[i]['name'] + ", " + contacts[i]['role'];
-                    $(content).append("<p>" + person + "</p>");
+                    content += "<p>" + person + "</p>";
                     if (contacts[i]['email'].length > 0) {
-                        $(content).append("<p>" + contacts[i]['email'] + "</p>");
+                        content += "<p>" + contacts[i]['email'] + "</p>";
                     }
                     if (contacts[i]['phone'].length > 0) {
-                        $(content).append("<p>" + contacts[i]['phone'] + "</p>");
+                        content += "<p>" + contacts[i]['phone'] + "</p>";
                     }
                 } // end for (each Contact in contacts)
+                container.innerHTML = content;
             } // end success function
         }); // end ajax() call
     } // end loadContacts() definition
