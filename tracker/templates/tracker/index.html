@@ -18,49 +18,50 @@
         {% endfor %}
     </ul>
     {% endif %}
-<section>
-    <button class="collapsible-toggle">Show/hide fields to add something</button>
-    <div class="collapsible">
-        {% for form in forms %}
-        <form method="POST" action="{% url 'tracker:add_new' %}">
-            {% csrf_token %}
-            <input type="hidden" name="form-type" value="type-{{ form.2 }}">
-            <fieldset>
-                <legend>{{ form.0 }}</legend>
-                {% for field in form.1 %}
-                    <div>{{ field.label_tag }} {{ field }}</div>
-                {% endfor %}
-                <input type="submit" value="Add">
-            </fieldset>
-        </form>
-        {% endfor %}
-    </div>
-</section>
+    
+    <section>
+        <button class="collapsible-toggle">Show/hide fields to add something</button>
+        <div class="collapsible">
+            {% for form in forms %}
+            <form method="POST" action="{% url 'tracker:add_new' %}">
+                {% csrf_token %}
+                <input type="hidden" name="form-type" value="type-{{ form.2 }}">
+                <fieldset>
+                    <legend>{{ form.0 }}</legend>
+                    {% for field in form.1 %}
+                        <div>{{ field.label_tag }} {{ field }}</div>
+                    {% endfor %}
+                    <input type="submit" value="Add">
+                </fieldset>
+            </form>
+            {% endfor %}
+        </div>
+    </section>
     
     <section class="bg-gray-light">
     {% regroup steps by job_app as job_apps %}
     {% for ja in job_apps %}
-    <p>{{ ja.grouper }}</p>
-    {% for step in ja.list %}
-    <div class="{% cycle 'bg-gray-light' 'bg-gray' %}">
-    <p>{{ step }}, {{ step.get_step_display }}, {{ step.date }}
-            {% if step.done %} (done)
-            {% else %} (not done)
-            {% endif %}</p>
-        {% if step.step == 'resm' %}
-        <p>filename: {{ step.job_app.resume }}</p>
-        {% elif step.step == 'covr' %}
-        <button class="collapsible-toggle">Show/hide cover letter</button>
-        <p class="collapsible">{{ step.job_app.cover_letter }}</p>
-        {% endif %}
-    </div>
-    {% empty %}
-        <p>no steps taken yet</p>
-    {% endfor %}
-    <p>{{ ja.grouper.other_material }}, {{ ja.grouper.notes }}</p>
-    <button class="ajax-contacts" value="{{ ja.grouper.company.id }}" ajax-contacts-url="{% url 'tracker:get_contacts' ja.grouper.company.id %}">Contacts for {{ ja.grouper.company }}</button>
-    <div id="contacts-{{ company }}"></div>
-    {% endfor %}
+        <p>{{ ja.grouper }}</p>
+        {% for step in ja.list %}
+        <div class="{% cycle 'bg-gray-light' 'bg-gray' %}">
+            <p>{{ step }}, {{ step.get_step_display }}, {{ step.date }}
+                {% if step.done %} (done)
+                {% else %} (not done)
+                {% endif %}</p>
+            {% if step.step == 'resm' %}
+                <p>filename: {{ step.job_app.resume }}</p>
+            {% elif step.step == 'covr' %}
+                <button class="collapsible-toggle">Show/hide cover letter</button>
+                <p class="collapsible">{{ step.job_app.cover_letter }}</p>
+            {% endif %}
+        </div>
+        {% empty %}
+            <p>no steps taken yet</p>
+        {% endfor %}
+        <p>{{ ja.grouper.other_material }}, {{ ja.grouper.notes }}</p>
+        <button class="ajax-contacts" value="{{ ja.grouper.company.id }}" ajax-contacts-url="{% url 'tracker:get_contacts' ja.grouper.company.id %}">Contacts for {{ ja.grouper.company }}</button>
+        <div id="contacts-{{ company }}"></div>
+        {% endfor %}
     </section>
 
     <!-- SCRIPTS -->
@@ -88,5 +89,6 @@
             }
         });
     </script>
+    
 </body>
 </html>
