@@ -9,3 +9,11 @@ label {
 .collapsible {
     display: none;
 }
+
+.bg-gray {
+    background-color: #ccc;
+}
+
+.bg-gray-light {
+    background-color: #eee;
+}

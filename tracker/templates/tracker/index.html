@@ -11,7 +11,7 @@
 </head>
 <body>
 <section>
-    <button class="collapsible-toggle">Show fields to add something</button>
+    <button class="collapsible-toggle">Show/hide fields to add something</button>
     <div class="collapsible">
         {% for form in forms %}
         <form method="POST" action="{% url 'tracker:add_new' %}">
