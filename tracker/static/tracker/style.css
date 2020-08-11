@@ -10,6 +10,28 @@ label {
     display: none;
 }
 
+ul.messages {
+    padding-left: 0;
+}
+
+ul.messages li {
+    list-style: none;
+    padding: 1rem;
+    border: solid 0.2rem;
+    border-radius: 0.5rem;
+}
+
+.success {
+    background-color: #bfb;
+    color: #080;
+    border-color: #080;
+}
+
+.error {
+    background-color: #fbb;
+    color: #800;
+}
+
 .bg-gray {
     background-color: #ccc;
 }

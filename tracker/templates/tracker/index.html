@@ -10,6 +10,14 @@
     <script src="{% static 'tracker/jquery.js' %}"></script>
 </head>
 <body>
+    {# TO DO: accessibility for error messages? would want to list messages but also have a heading, but "messages" encompasses all kinds of messages #}
+    {% if messages %}
+    <ul class="messages">
+        {% for message in messages %}
+        <li{% if message.tags %} class="{{ message.tags }}"{% endif %}>{{ message }}</li>
+        {% endfor %}
+    </ul>
+    {% endif %}
 <section>
     <button class="collapsible-toggle">Show/hide fields to add something</button>
     <div class="collapsible">
