@@ -47,7 +47,11 @@ def add_new(request):
             new_job_app_step = JobAppStep(job_app_id = data['job_app'])
             new_job_app_step.step = data['step']
             new_job_app_step.date = data['date']
-            new_job_app_step.done = bool(data['done'])
+            # unchecked checkboxes aren't present in POST data
+            if 'done' in data:
+                new_job_app_step.done = True
+            else:
+                new_job_app_step.done = False
             added = "job app step: " + new_job_app_step.__str__()
             new_job_app_step.save()
         elif data['form-type'] == 'type-ct':
