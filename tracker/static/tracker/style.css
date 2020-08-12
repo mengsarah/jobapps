@@ -1,3 +1,15 @@
+/*** VARIABLES FOR EVERYWHERE ***/
+:root {
+    --dark-blue: darkblue; /* #00008B */
+    --dark-green: darkgreen; /* #006400 */
+    --dark-red: darkred; /* #8B0000 */
+    --light-blue: #ADB3E6;
+    --light-green: lightgreen; /* #90EE90 */
+    --light-red: lightcoral; /* #F08080 */
+}
+
+/*** FORMATTING ***/
+
 body {
     font-size: large;
 }
@@ -5,6 +17,8 @@ body {
 label {
     font-weight: bold;
 }
+
+/*** FUNCTIONAL ***/
 
 .collapsible {
     display: none;
@@ -22,20 +36,45 @@ ul.messages li {
 }
 
 .success {
-    background-color: #bfb;
-    color: #080;
-    border-color: #080;
+    background-color: var(--light-green);
+    color: var(--dark-green);
+    border-color: var(--dark-green);
 }
 
 .error {
-    background-color: #fbb;
-    color: #800;
+    background-color: var(--light-red);
+    color: var(--dark-red);
 }
 
-.bg-gray {
-    background-color: #ccc;
+/*** PURE AESTHETICS ***/
+
+.row-red, .row-red-light, .row-blue, .row-blue-light {
+    margin: 0;
+    padding: 0.5rem 1rem;
 }
 
-.bg-gray-light {
-    background-color: #eee;
+.row-red, .row-red-light {
+    border: solid 1px var(--dark-red);
+    color: var(--dark-red);
+}
+
+.row-blue, .row-blue-light {
+    border: solid 1px var(--dark-blue);
+    color: var(--dark-blue);
+}
+
+.row-red {
+    background-color: #faa;
+}
+
+.row-red-light {
+    background-color: #fcc;
+}
+
+.row-blue {
+    background-color: #abf;
+}
+
+.row-blue-light {
+    background-color: #cdf;
 }

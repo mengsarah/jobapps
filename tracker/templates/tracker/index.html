@@ -38,13 +38,22 @@
         </div>
     </section>
     
-    <section class="bg-gray-light">
     {% regroup steps by job_app as job_apps %}
+    <section>
     {% for ja in job_apps %}
         <p>{{ ja.grouper }}</p>
+    {% cycle 'red' 'blue' as color silent %}
+        <div class="row-{{color}}-light">
+        <button class="collapsible-toggle">Show/hide misc material</button>
+        <p class="collapsible">{{ ja.grouper.other_material }}</p>
+        <button class="collapsible-toggle">Show/hide notes</button>
+        <p class="collapsible">{{ ja.grouper.notes }}</p>
+        <button class="ajax-contacts collapsible-toggle" value="{{ ja.grouper.company.id }}" ajax-contacts-url="{% url 'tracker:get_contacts' ja.grouper.company.id %}">Contacts for {{ ja.grouper.company }}</button>
+        <div class="collapsible" id="contacts-{{ company }}"></div>
         {% for step in ja.list %}
-        <div class="{% cycle 'bg-gray-light' 'bg-gray' %}">
-            <p>{{ step }}, {{ step.get_step_display }}, {{ step.date }}
+        {% cycle '-light' '' as shade silent %}
+        <div class="row-{{color}}{{shade}}">
+            <p>{{ step.get_step_display }}, {{ step.date }}
                 {% if step.done %} (done)
                 {% else %} (not done)
                 {% endif %}</p>
@@ -58,9 +67,7 @@
         {% empty %}
             <p>no steps taken yet</p>
         {% endfor %}
-        <p>{{ ja.grouper.other_material }}, {{ ja.grouper.notes }}</p>
-        <button class="ajax-contacts" value="{{ ja.grouper.company.id }}" ajax-contacts-url="{% url 'tracker:get_contacts' ja.grouper.company.id %}">Contacts for {{ ja.grouper.company }}</button>
-        <div id="contacts-{{ company }}"></div>
+        </div>
         {% endfor %}
     </section>
 
