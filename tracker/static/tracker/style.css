@@ -8,31 +8,39 @@
     --light-red: lightcoral; /* #F08080 */
 }
 
-/*** FORMATTING ***/
+/*** FORMATTING AND BASIC STUFF ***/
 
 body {
     font-size: large;
+    background-color: #eee;
 }
 
 label {
     font-weight: bold;
 }
 
-/*** FUNCTIONAL ***/
+/*** FUNCTIONAL/SPECIFIC ***/
 
 .collapsible {
     display: none;
 }
 
-ul.messages {
+ul.messages, ul.table-ish {
     padding-left: 0;
 }
 
-ul.messages li {
+ul.messages li, ul.table-ish li {
     list-style: none;
     padding: 1rem;
+}
+
+ul.messages li {
     border: solid 0.2rem;
     border-radius: 0.5rem;
+}
+
+ul.table-ish li a {
+    color: inherit;
 }
 
 .success {

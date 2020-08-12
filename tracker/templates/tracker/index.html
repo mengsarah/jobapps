@@ -40,8 +40,19 @@
     
     {% regroup steps by job_app as job_apps %}
     <section>
+        <button class="collapsible-toggle">Show/hide job app list</button>
+        <div class="collapsible">
+            <ul class="table-ish">
+            {% for ja in job_apps %}
+                <li class="row-{% cycle 'red' 'blue' %}-light"><a href="#job-app-{{ ja.grouper.id }}">{{ ja.grouper }}</a></li>
+            {% endfor %}
+            </ul>
+        </div>
+    </section>
+
+    <section>
     {% for ja in job_apps %}
-        <p>{{ ja.grouper }}</p>
+        <p id="job-app-{{ ja.grouper.id }}>{{ ja.grouper }}</p>
     {% cycle 'red' 'blue' as color silent %}
         <div class="row-{{color}}-light">
         <button class="collapsible-toggle">Show/hide misc material</button>
