@@ -56,34 +56,38 @@
 
     <section>
         <h2>All steps taken</h2>
-    {% for ja in job_apps %}
-    {% cycle 'red' 'blue' as color silent %}
-        <div class="row-{{color}}-light">
-        <h3 id="job-app-{{ ja.grouper.id }}">{{ ja.grouper }}</h3>
-        <button class="collapsible-toggle">Show/hide misc material</button>
-        <p class="collapsible">{{ ja.grouper.other_material }}</p>
-        <button class="collapsible-toggle">Show/hide notes</button>
-        <p class="collapsible">{{ ja.grouper.notes }}</p>
-        <button class="ajax-contacts collapsible-toggle" value="{{ ja.grouper.company.id }}" ajax-contacts-url="{% url 'tracker:get_contacts' ja.grouper.company.id %}">Contacts for {{ ja.grouper.company }}</button>
-        <div class="collapsible" id="contacts-{{ company }}"></div>
-        {% for step in ja.list %}
-        {% cycle '-light' '' as shade silent %}
-        <div class="row-{{color}}{{shade}}">
-            <p>{{ step.get_step_display }}, {{ step.date }}
-                {% if step.done %} (done)
-                {% else %} (not done)
-                {% endif %}</p>
-            {% if step.step == 'resm' %}
-                <p>filename: {{ step.job_app.resume }}</p>
-            {% elif step.step == 'covr' %}
-                <button class="collapsible-toggle">Show/hide cover letter</button>
-                <p class="collapsible">{{ step.job_app.cover_letter }}</p>
-            {% endif %}
-        </div>
-        {% empty %}
-            <p>no steps taken yet</p>
-        {% endfor %}
-        </div>
+        {% for ja in job_apps %}
+        {% cycle 'red' 'blue' as color silent %}
+            <div class="row-{{color}}-light">
+                <h3 id="job-app-{{ ja.grouper.id }}">{{ ja.grouper }}</h3>
+
+                <button class="collapsible-toggle">Show/hide misc material</button>
+                <p class="collapsible">{{ ja.grouper.other_material }}</p>
+
+                <button class="collapsible-toggle">Show/hide notes</button>
+                <p class="collapsible">{{ ja.grouper.notes }}</p>
+
+                <button class="ajax-contacts collapsible-toggle" value="{{ ja.grouper.company.id }}" ajax-contacts-url="{% url 'tracker:get_contacts' ja.grouper.company.id %}">Contacts for {{ ja.grouper.company }}</button>
+                <div class="collapsible" id="contacts-{{ company }}"></div>
+
+                {% for step in ja.list %}
+                {% cycle '-light' '' as shade silent %}
+                    <div class="row-{{color}}{{shade}}">
+                        <p>{{ step.get_step_display }}, {{ step.date }}
+                            {% if step.done %} (done)
+                            {% else %} (not done)
+                            {% endif %}</p>
+                        {% if step.step == 'resm' %}
+                            <p>filename: {{ step.job_app.resume }}</p>
+                        {% elif step.step == 'covr' %}
+                            <button class="collapsible-toggle">Show/hide cover letter</button>
+                            <p class="collapsible">{{ step.job_app.cover_letter }}</p>
+                        {% endif %}
+                    </div>
+                {% empty %}
+                    <p>no steps taken yet</p>
+                {% endfor %}
+            </div>
         {% endfor %}
     </section>
 
