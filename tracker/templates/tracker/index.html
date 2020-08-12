@@ -62,10 +62,10 @@
                 <h3 id="job-app-{{ ja.grouper.id }}">{{ ja.grouper }}</h3>
 
                 <button class="collapsible-toggle">Show/hide misc material</button>
-                <p class="collapsible">{{ ja.grouper.other_material }}</p>
+                <div class="collapsible">{{ ja.grouper.other_material|linebreaks }}</div>
 
                 <button class="collapsible-toggle">Show/hide notes</button>
-                <p class="collapsible">{{ ja.grouper.notes }}</p>
+                <div class="collapsible">{{ ja.grouper.notes|linebreaks }}</div>
 
                 <button class="ajax-contacts collapsible-toggle" value="{{ ja.grouper.company.id }}" ajax-contacts-url="{% url 'tracker:get_contacts' ja.grouper.company.id %}">Contacts for {{ ja.grouper.company }}</button>
                 <div class="collapsible" id="contacts-{{ company }}"></div>
@@ -73,7 +73,7 @@
                 {% for step in ja.list %}
                 {% cycle '-light' '' as shade silent %}
                     <div class="row-{{color}}{{shade}}">
-                        <p>{{ step.get_step_display }}, {{ step.date }}
+                        {{ step.get_step_display }}, {{ step.date }}
                             {% if step.done %} (done)
                             {% else %} (not done)
                             {% endif %}</p>
@@ -81,7 +81,7 @@
                             <p>filename: {{ step.job_app.resume }}</p>
                         {% elif step.step == 'covr' %}
                             <button class="collapsible-toggle">Show/hide cover letter</button>
-                            <p class="collapsible">{{ step.job_app.cover_letter }}</p>
+                            <div class="collapsible">{{ step.job_app.cover_letter|linebreaks }}</div>
                         {% endif %}
                     </div>
                 {% empty %}
