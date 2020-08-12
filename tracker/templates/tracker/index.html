@@ -10,8 +10,10 @@
     <script src="{% static 'tracker/jquery.js' %}"></script>
 </head>
 <body>
-    {# TO DO: accessibility for error messages? would want to list messages but also have a heading, but "messages" encompasses all kinds of messages #}
+    <h1>Job App Tracker</h1>
+
     {% if messages %}
+    <h2>Info</h2>
     <ul class="messages">
         {% for message in messages %}
         <li{% if message.tags %} class="{{ message.tags }}"{% endif %}>{{ message }}</li>
@@ -22,6 +24,7 @@
     <section>
         <button class="collapsible-toggle">Show/hide fields to add something</button>
         <div class="collapsible">
+            <h2>Forms</h2>
             {% for form in forms %}
             <form method="POST" action="{% url 'tracker:add_new' %}">
                 {% csrf_token %}
@@ -42,6 +45,7 @@
     <section>
         <button class="collapsible-toggle">Show/hide job app list</button>
         <div class="collapsible">
+            <h2>List of job apps</h2>
             <ul class="table-ish">
             {% for ja in job_apps %}
                 <li class="row-{% cycle 'red' 'blue' %}-light"><a href="#job-app-{{ ja.grouper.id }}">{{ ja.grouper }}</a></li>
@@ -51,10 +55,11 @@
     </section>
 
     <section>
+        <h2>All steps taken</h2>
     {% for ja in job_apps %}
-        <p id="job-app-{{ ja.grouper.id }}>{{ ja.grouper }}</p>
     {% cycle 'red' 'blue' as color silent %}
         <div class="row-{{color}}-light">
+        <h3 id="job-app-{{ ja.grouper.id }}">{{ ja.grouper }}</h3>
         <button class="collapsible-toggle">Show/hide misc material</button>
         <p class="collapsible">{{ ja.grouper.other_material }}</p>
         <button class="collapsible-toggle">Show/hide notes</button>
@@ -107,6 +112,6 @@
             }
         });
     </script>
-    
+
 </body>
 </html>
