@@ -22,10 +22,10 @@
     {% endif %}
     
     <section>
-        <button class="collapsible-toggle">Show/hide fields to add something</button>
-        <div class="collapsible">
-            <h2>Forms</h2>
+        <h2>Forms</h2>
             {% for form in forms %}
+        <button class="collapsible-toggle">Show/hide field to add {{ form.0 }}</button>
+        <div class="collapsible">
             <form method="POST" action="{% url 'tracker:add_new' %}">
                 {% csrf_token %}
                 <input type="hidden" name="form-type" value="type-{{ form.2 }}">
@@ -37,8 +37,9 @@
                     <input type="submit" value="Add">
                 </fieldset>
             </form>
-            {% endfor %}
+            <button class="collapsible-hide">Hide field to add {{ form.0 }}</button>
         </div>
+            {% endfor %}
     </section>
     
     {% regroup steps by job_app as job_apps %}
@@ -51,6 +52,7 @@
                 <li class="row-{% cycle 'red' 'blue' %}-light"><a href="#job-app-{{ ja.grouper.id }}">{{ ja.grouper }}</a></li>
             {% endfor %}
             </ul>
+            <button class="collapsible-hide">Hide list of job apps</button>
         </div>
     </section>
 
@@ -62,12 +64,18 @@
                 <h3 id="job-app-{{ ja.grouper.id }}">{{ ja.grouper }}</h3>
 
                 <button class="collapsible-toggle">Show/hide misc material</button>
-                <div class="collapsible">{{ ja.grouper.other_material|linebreaks }}</div>
+                <div class="collapsible">
+                    {{ ja.grouper.other_material|linebreaks }}
+                    <button class="collapsible-hide">Hide misc material</button>
+                </div>
 
                 <button class="collapsible-toggle">Show/hide notes</button>
-                <div class="collapsible">{{ ja.grouper.notes|linebreaks }}</div>
+                <div class="collapsible">
+                    {{ ja.grouper.notes|linebreaks }}
+                    <button class="collapsible-hide">Hide notes</button>
+                </div>
 
-                <button class="ajax-contacts collapsible-toggle" value="{{ ja.grouper.company.id }}" ajax-contacts-url="{% url 'tracker:get_contacts' ja.grouper.company.id %}">Contacts for {{ ja.grouper.company }}</button>
+                <button class="ajax-contacts collapsible-toggle" value="{{ ja.grouper.company.id }}" ajax-contacts-url="{% url 'tracker:get_contacts' ja.grouper.company.id %}">Show/hide contacts for {{ ja.grouper.company }}</button>
                 <div class="collapsible" id="contacts-{{ company }}"></div>
 
                 {% for step in ja.list %}
@@ -75,13 +83,16 @@
                     <div class="row-{{color}}{{shade}}">
                         {{ step.get_step_display }}, {{ step.date }}
                             {% if step.done %} (done)
-                            {% else %} (not done)
-                            {% endif %}</p>
+                            {% else %} <strong>(NOT DONE)</strong>
+                            {% endif %}
                         {% if step.step == 'resm' %}
-                            <p>filename: {{ step.job_app.resume }}</p>
+                            (filename: {{ step.job_app.resume }})
                         {% elif step.step == 'covr' %}
                             <button class="collapsible-toggle">Show/hide cover letter</button>
-                            <div class="collapsible">{{ step.job_app.cover_letter|linebreaks }}</div>
+                            <div class="collapsible">
+                                {{ step.job_app.cover_letter|linebreaks }}
+                                <button class="collapsible-hide">Hide cover letter</button>
+                            </div>
                         {% endif %}
                     </div>
                 {% empty %}
@@ -98,7 +109,7 @@
             // can we jQuery? (because $(document).ready() already uses jQuery)
             // alert("OOGEDY BOOGEDY");
 
-            /*** COLLAPSIBLE FUNCTIONALITY ***/
+            /*** COLLAPSIBLE SHOW/HIDE FUNCTIONALITY ***/
             function toggleCollapsible() {
                 var content = this.nextElementSibling;
                 if (content.style.display === "block") {
@@ -109,10 +120,20 @@
                 }
             }
             
-            // bind click event handler to display toggle buttons
+            // bind click event handler to the show/hide buttons
             var collapsible_toggles = document.getElementsByClassName("collapsible-toggle");
             for (var i = 0; i < collapsible_toggles.length; i++) {
                 collapsible_toggles[i].addEventListener("click", toggleCollapsible);
+            }
+
+            /*** HIDE FUNCTIONALITY ***/
+            // hide button needs to be a direct child of whatever is shown/hidden
+            // bind click event handler to the hide buttons
+            var hide_toggles = document.getElementsByClassName("collapsible-hide");
+            for (var i = 0; i < hide_toggles.length; i++) {
+                hide_toggles[i].addEventListener("click", function() {
+                    this.parentNode.style.display = "none";
+                });
             }
         });
     </script>
