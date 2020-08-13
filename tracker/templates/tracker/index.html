@@ -24,7 +24,7 @@
     <section>
         <h2 class="inline-heading">Forms</h2>
             {% for form in forms %}
-        <button class="collapsible-toggle">Show/hide field to add {{ form.0 }}</button>
+        <button class="collapsible-toggle">Show/hide {{ form.0|lower }} form</button>
         <div class="collapsible">
             <form method="POST" action="{% url 'tracker:add_new' %}">
                 {% csrf_token %}
@@ -37,7 +37,7 @@
                     <input type="submit" value="Add">
                 </fieldset>
             </form>
-            <button class="collapsible-hide">Hide field to add {{ form.0 }}</button>
+            <button class="collapsible-hide">Hide {{ form.0|lower }} form</button>
         </div>
             {% endfor %}
     </section>
@@ -49,7 +49,7 @@
         <div class="collapsible">
             <ul class="table-ish">
             {% for ja in job_apps %}
-                <li class="row-{% cycle 'red' 'blue' %}-light"><a href="#job-app-{{ ja.grouper.id }}">{{ ja.grouper }}</a></li>
+                <li class="row-{% cycle 'red' 'blue' %}-light"><a href="#job-app-{{ ja.grouper.id }}">{{ ja.grouper }} (last step: {{ ja.list.0.get_step_display }} on {{ ja.list.0.date }})</a></li>
             {% endfor %}
             </ul>
             <button class="collapsible-hide">Hide list of job apps</button>
@@ -65,13 +65,13 @@
 
                 <button class="collapsible-toggle">Show/hide misc material</button>
                 <div class="collapsible">
-                    {{ ja.grouper.other_material|linebreaks }}
+                    {{ ja.grouper.other_material|default:"none"|linebreaks }}
                     <button class="collapsible-hide">Hide misc material</button>
                 </div>
 
                 <button class="collapsible-toggle">Show/hide notes</button>
                 <div class="collapsible">
-                    {{ ja.grouper.notes|linebreaks }}
+                    {{ ja.grouper.notes|default:"none"|linebreaks }}
                     <button class="collapsible-hide">Hide notes</button>
                 </div>
 
@@ -85,7 +85,7 @@
                 {% for step in ja.list %}
                 {% cycle '-light' '' as shade silent %}
                     <li class="row-{{color}}{{shade}}">
-                        {{ step.get_step_display }}, {{ step.date }}
+                        {{ step.get_step_display }} on {{ step.date }}
                             {% if step.done %} (done)
                             {% else %} <strong>(NOT DONE)</strong>
                             {% endif %}
