@@ -79,6 +79,11 @@ ul.messages li, ul.table-ish li {
     padding: 0.5rem 1rem;
 }
 
+ul.messages li {
+    border: solid 0.2rem;
+    border-radius: 0.5rem;
+}
+
 ul.table-ish li a {
     color: inherit;
 }
