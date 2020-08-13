@@ -1,8 +1,10 @@
 /*** AJAX ***/
 $(document).ready(function() {
-    function loadContacts(params) {
+    function loadContacts() {
         // this (caller) is a button
-        var container = this.nextElementSibling;
+        var id = this.getAttribute("value"); // e.g. contacts-3
+        var container = document.getElementById(id);
+        if (container.innerHTML === "") {
         $.ajax({
             url: $(this).attr("ajax-contacts-url"),
             success: function(data) {
@@ -14,17 +16,27 @@ $(document).ready(function() {
                 for (var i = 0; i < contacts.length; i++) {
                     // contacts[i] is a json-ified Contact object
                     var person = contacts[i]['name'] + ", " + contacts[i]['role'];
-                    content += "<p>" + person + "</p>";
-                    if (contacts[i]['email'].length > 0) {
-                        content += "<p>" + contacts[i]['email'] + "</p>";
+                    content += "<p>" + person + ": ";
+                    if (contacts[i]['email'].length == 0 && contacts[i]['phone'].length == 0) {
+                        content += "no additional info";
                     }
-                    if (contacts[i]['phone'].length > 0) {
-                        content += "<p>" + contacts[i]['phone'] + "</p>";
+                    else {
+                        if (contacts[i]['email'].length > 0) {
+                            content += contacts[i]['email'];
+                        }
+                        if (contacts[i]['phone'].length > 0) {
+                            if (contacts[i]['email'].length > 0) {
+                                content += " and ";
+                            }
+                            content += contacts[i]['phone'];
+                        }
                     }
+                    content += "</p>";
                 } // end for (each Contact in contacts)
                 container.innerHTML = content;
             } // end success function
         }); // end ajax() call
+        } // end if contacts div is empty
     } // end loadContacts() definition
 
     // bind click event handler to contact toggles

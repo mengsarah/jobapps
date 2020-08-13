@@ -75,8 +75,11 @@
                     <button class="collapsible-hide">Hide notes</button>
                 </div>
 
-                <button class="ajax-contacts collapsible-toggle" value="{{ ja.grouper.company.id }}" ajax-contacts-url="{% url 'tracker:get_contacts' ja.grouper.company.id %}">Show/hide contacts for {{ ja.grouper.company }}</button>
-                <div class="collapsible" id="contacts-{{ company }}"></div>
+                <button class="ajax-contacts collapsible-toggle" value="contacts-{{ ja.grouper.company.id }}" ajax-contacts-url="{% url 'tracker:get_contacts' ja.grouper.company.id %}">Show/hide contacts for {{ ja.grouper.company }}</button>
+                <div class="collapsible">
+                    <div id="contacts-{{ ja.grouper.company.id }}"></div>
+                    <button class="collapsible-hide">Hide contacts</button>
+                </div>
 
                 {% for step in ja.list %}
                 {% cycle '-light' '' as shade silent %}
