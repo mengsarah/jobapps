@@ -84,6 +84,12 @@ ul.messages li {
     border-radius: 0.5rem;
 }
 
+/* element1 + element2 selects all of element2 that is preceded by element1 */
+/* so in a list: select all but the first one */
+ul.table-ish li + li {
+    border-top: none;
+}
+
 ul.table-ish li a {
     color: inherit;
 }
