@@ -18,8 +18,21 @@ body {
     background-color: #eee;
 }
 
+h1, h2 {
+    margin: 0.5rem 1rem;
+}
+
+h3 {
+    margin: 0.5rem;
+    margin-bottom: 0;
+}
+
 label {
     font-weight: bold;
+}
+
+.inline-heading {
+    display: inline-block;
 }
 
 /*** FUNCTIONAL/SPECIFIC ***/
@@ -46,27 +59,24 @@ button:hover, button:focus {
 button:active {
     background: linear-gradient(var(--dark-gray), var(--gray));
     color: white;
+    /* box-shadow same as :focus but set the color to stay black */
+    box-shadow: 0 0 0 0.1rem black,
+                0 0 0.1rem 0.1rem black;
 }
 
 .collapsible {
     border: dashed 2px;
-    padding-left: 1rem;
-    padding-right: 1rem;
     display: none;
 }
 
 ul.messages, ul.table-ish {
     padding-left: 0;
+    margin: 0.5rem;
 }
 
 ul.messages li, ul.table-ish li {
     list-style: none;
-    padding: 1rem;
-}
-
-ul.messages li {
-    border: solid 0.2rem;
-    border-radius: 0.5rem;
+    padding: 0.5rem 1rem;
 }
 
 ul.table-ish li a {
@@ -86,18 +96,30 @@ ul.table-ish li a {
 
 /*** PURE AESTHETICS ***/
 
+.collapsible {
+    margin: 0.5rem;
+}
+
+.collapsible > * {
+    margin: 1rem;
+}
+
+.collapsible > button {
+    margin-top: 0;
+}
+
 .row-red, .row-red-light, .row-blue, .row-blue-light {
     margin: 0;
     padding: 0.5rem 1rem;
 }
 
 .row-red, .row-red-light {
-    border: solid 1px var(--dark-red);
+    border: 0.1rem solid var(--dark-red);
     color: var(--dark-red);
 }
 
 .row-blue, .row-blue-light {
-    border: solid 1px var(--dark-blue);
+    border: 0.1rem solid var(--dark-blue);
     color: var(--dark-blue);
 }
 

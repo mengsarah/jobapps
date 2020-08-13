@@ -22,7 +22,7 @@
     {% endif %}
     
     <section>
-        <h2>Forms</h2>
+        <h2 class="inline-heading">Forms</h2>
             {% for form in forms %}
         <button class="collapsible-toggle">Show/hide field to add {{ form.0 }}</button>
         <div class="collapsible">
@@ -44,9 +44,9 @@
     
     {% regroup steps by job_app as job_apps %}
     <section>
+        <h2 class="inline-heading">List of job apps</h2>
         <button class="collapsible-toggle">Show/hide job app list</button>
         <div class="collapsible">
-            <h2>List of job apps</h2>
             <ul class="table-ish">
             {% for ja in job_apps %}
                 <li class="row-{% cycle 'red' 'blue' %}-light"><a href="#job-app-{{ ja.grouper.id }}">{{ ja.grouper }}</a></li>
@@ -61,7 +61,7 @@
         {% for ja in job_apps %}
         {% cycle 'red' 'blue' as color silent %}
             <div class="row-{{color}}-light">
-                <h3 id="job-app-{{ ja.grouper.id }}">{{ ja.grouper }}</h3>
+                <h3 class="inline-heading" id="job-app-{{ ja.grouper.id }}">{{ ja.grouper }}</h3>
 
                 <button class="collapsible-toggle">Show/hide misc material</button>
                 <div class="collapsible">
@@ -81,9 +81,10 @@
                     <button class="collapsible-hide">Hide contacts</button>
                 </div>
 
+                <ul class="table-ish">
                 {% for step in ja.list %}
                 {% cycle '-light' '' as shade silent %}
-                    <div class="row-{{color}}{{shade}}">
+                    <li class="row-{{color}}{{shade}}">
                         {{ step.get_step_display }}, {{ step.date }}
                             {% if step.done %} (done)
                             {% else %} <strong>(NOT DONE)</strong>
@@ -97,10 +98,11 @@
                                 <button class="collapsible-hide">Hide cover letter</button>
                             </div>
                         {% endif %}
-                    </div>
+                    </li>
                 {% empty %}
                     <p>no steps taken yet</p>
                 {% endfor %}
+                </ul>
             </div>
         {% endfor %}
     </section>
