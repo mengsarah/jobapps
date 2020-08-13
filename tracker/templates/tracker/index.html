@@ -49,7 +49,10 @@
         <div class="collapsible">
             <ul class="table-ish">
             {% for ja in job_apps %}
-                <li class="row-{% cycle 'red' 'blue' %}-light"><a href="#job-app-{{ ja.grouper.id }}">{{ ja.grouper }} (last step: {{ ja.list.0.get_step_display }} on {{ ja.list.0.date }})</a></li>
+                <li class="row-{% cycle 'red' 'blue' %}-light"><a href="#job-app-{{ ja.grouper.id }}">{{ ja.grouper }} (last known step: {{ ja.list.0.get_step_display }} on {{ ja.list.0.date }},
+                    {% if ja.list.0.done %} done<!-- workaround to eliminate spaces
+                --->{% else %} <strong>NOT DONE</strong><!--
+                --->{% endif %})</a></li>
             {% endfor %}
             </ul>
             <button class="collapsible-hide">Hide list of job apps</button>
