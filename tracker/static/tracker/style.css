@@ -52,11 +52,12 @@ button, input[type="submit"] {
     margin: 0.25rem;
 }
 
-button:hover, button:focus {
+button:hover, button:focus,
+input[type="submit"]:hover, input[type="submit"]:focus {
     background: linear-gradient(var(--light-gray), white);
 }
 
-button:active {
+button:active, input[type="submit"]:active {
     background: linear-gradient(var(--dark-gray), var(--gray));
     color: white;
     /* box-shadow same as :focus but set the color to stay black */
@@ -117,6 +118,11 @@ ul.table-ish li a {
 
 .collapsible > button {
     margin-top: 0;
+}
+
+a.link-to-top {
+    margin-left: 0.5rem;
+    color: inherit;
 }
 
 .row-red, .row-red-light, .row-blue, .row-blue-light {

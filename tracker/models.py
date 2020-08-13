@@ -10,6 +10,7 @@ ACTIONS = [
     ('resm', 'gave resume'),
     ('covr', 'gave cover letter'),
     ('appl', 'applied via job posting'),
+    ('flup', 'follow-up'),
     ('chln', 'coding challenge/test'),
     ('intv', 'interview')
 ]

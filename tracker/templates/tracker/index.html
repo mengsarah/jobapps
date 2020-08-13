@@ -10,7 +10,7 @@
     <script src="{% static 'tracker/jquery.js' %}"></script>
 </head>
 <body>
-    <h1>Job App Tracker</h1>
+    <h1 id="top">Job App Tracker</h1>
 
     {% if messages %}
     <h2>Info</h2>
@@ -106,6 +106,7 @@
                     <p>no steps taken yet</p>
                 {% endfor %}
                 </ul>
+                <a href="#top" class="link-to-top">go to top of page</a>
             </div>
         {% endfor %}
     </section>
