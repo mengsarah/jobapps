@@ -82,5 +82,5 @@ def index(request):
         ('Job App Step', form_jas, 'jas'),
         ('Contact', form_ct, 'ct')
     ]
-    job_app_steps = JobAppStep.objects.order_by('-date').order_by('-job_app')
+    job_app_steps = JobAppStep.objects.order_by('-date', 'job_app')
     return render(request, "tracker/index.html", {'forms': forms, 'steps': job_app_steps})
