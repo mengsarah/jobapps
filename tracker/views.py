@@ -1,5 +1,6 @@
 from django.shortcuts import render, redirect
 from django.forms import modelform_factory
+from django.forms.models import model_to_dict
 from django.http import JsonResponse
 from django.contrib import messages
 
@@ -12,6 +13,13 @@ JobAppStepForm = modelform_factory(JobAppStep, fields='__all__')
 ContactForm = modelform_factory(Contact, fields='__all__')
 
 ### VIEWS FOR AJAX ###
+
+def get_company_info(request, company):
+    if company:
+        info = model_to_dict(Company.objects.get(id=company))
+        # now, to wrangle a potentially multiline about field into a json object...
+        info["about"] = info["about"].splitlines()
+        return JsonResponse(info)
 
 def get_contacts(request, company):
     if company:
