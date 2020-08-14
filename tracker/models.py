@@ -43,6 +43,7 @@ class JobApp(models.Model):
     cover_letter = models.TextField(blank=True)
     other_material = models.TextField(blank=True)
     notes = models.TextField(blank=True)
+    active = models.BooleanField(default=True)
     def __str__(self):
         return self.position + " at " + self.company.__str__()
 

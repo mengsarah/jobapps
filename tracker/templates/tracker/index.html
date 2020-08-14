@@ -49,10 +49,15 @@
         <div class="collapsible">
             <ul class="table-ish">
             {% for ja in job_apps %}
-                <li class="row-{% cycle 'red' 'blue' %}-light"><a href="#job-app-{{ ja.grouper.id }}">{{ ja.grouper }} (last known step: {{ ja.list.0.get_step_display }} on {{ ja.list.0.date }},
-                    {% if ja.list.0.done %} done<!-- workaround to eliminate spaces
-                --->{% else %} <strong>NOT DONE</strong><!--
-                --->{% endif %})</a></li>
+                <li class="row-{% cycle 'red' 'blue' %}-light"><a href="#job-app-{{ ja.grouper.id }}">{{ ja.grouper }}
+                    {% if ja.list.0.job_app.active %}
+                        (last known step: {{ ja.list.0.get_step_display }} on {{ ja.list.0.date }},
+                        {% if ja.list.0.done %} done<!-- workaround to eliminate spaces
+                    --->{% else %} <strong>NOT DONE</strong><!--
+                    --->{% endif %})<!--
+                --->{% else %}
+                        (inactive)<!--
+                --->{% endif %}</a></li>
             {% endfor %}
             </ul>
             <button class="collapsible-hide">Hide list of job apps</button>
@@ -64,7 +69,12 @@
         {% for ja in job_apps %}
         {% cycle 'red' 'blue' as color silent %}
             <div class="row-{{color}}-light">
-                <h3 class="inline-heading" id="job-app-{{ ja.grouper.id }}">{{ ja.grouper }}</h3>
+                <h3 class="inline-heading" id="job-app-{{ ja.grouper.id }}">{{ ja.grouper }} {% if not ja.list.0.job_app.active %}(inactive){% endif %}</h3>
+
+                {% if not ja.list.0.job_app.active %}
+                <button class="collapsible-toggle">Show/hide job app</button>
+                <div class="collapsible row-{{color}}-light">
+                {% endif %}
 
                 <button class="collapsible-toggle">Show/hide misc material</button>
                 <div class="collapsible">
@@ -113,6 +123,11 @@
                 {% endfor %}
                 </ul>
                 <a href="#top" class="link-to-top">go to top of page</a>
+
+                {% if not ja.list.0.job_app.active %}
+                <button class="collapsible-hide">Hide job app</button>
+                </div>
+                {% endif %}
             </div>
         {% endfor %}
     </section>
