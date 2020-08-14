@@ -90,5 +90,9 @@ def index(request):
         ('Job App Step', form_jas, 'jas'),
         ('Contact', form_ct, 'ct')
     ]
-    job_app_steps = JobAppStep.objects.order_by('-date', 'job_app')
+    # sort job app steps by activity (active = True first),
+    # then job app within activity status (most recently entered first),
+    # then by date of step within each job app (most recent step first)
+    # (ideally: sort by date of last step)
+    job_app_steps = JobAppStep.objects.order_by('-job_app__active', '-job_app', '-date')
     return render(request, "tracker/index.html", {'forms': forms, 'steps': job_app_steps})
