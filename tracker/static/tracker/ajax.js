@@ -21,11 +21,11 @@ $(document).ready(function() {
                         content += "no additional info";
                     }
                     else {
-                        if (contacts[i]['email'].length > 0) {
+                        if ("email" in contacts[i]) {
                             content += contacts[i]['email'];
                         }
-                        if (contacts[i]['phone'].length > 0) {
-                            if (contacts[i]['email'].length > 0) {
+                        if ("phone" in contacts[i]) {
+                            if ("email" in contacts[i]) {
                                 content += " and ";
                             }
                             content += contacts[i]['phone'];

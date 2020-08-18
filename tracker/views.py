@@ -33,7 +33,7 @@ def get_contacts(request, company):
 def add_new(request):
     if request.method == 'POST':
         data = request.POST
-        added = ""
+        added = "" # to be put in a message
         if data['form-type'] == 'type-cp':
             new_company = Company()
             new_company.name = data['name']
@@ -49,6 +49,11 @@ def add_new(request):
             new_job_app.cover_letter = data['cover_letter']
             new_job_app.other_material = data['other_material']
             new_job_app.notes = data['notes']
+            # unchecked checkboxes aren't present in POST data
+            if 'active' in data:
+                new_job_app.active = True
+            else:
+                new_job_app.active = False
             added = "job app: " + new_job_app.__str__()
             new_job_app.save()
         elif data['form-type'] == 'type-jas':

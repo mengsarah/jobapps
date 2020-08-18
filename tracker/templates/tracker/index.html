@@ -23,7 +23,7 @@
     
     <section>
         <h2 class="inline-heading">Forms</h2>
-            {% for form in forms %}
+        {% for form in forms %}
         <button class="collapsible-toggle">Show/hide {{ form.0|lower }} form</button>
         <div class="collapsible">
             <form method="POST" action="{% url 'tracker:add_new' %}">
@@ -39,10 +39,17 @@
             </form>
             <button class="collapsible-hide">Hide {{ form.0|lower }} form</button>
         </div>
-            {% endfor %}
+        {% endfor %}
     </section>
     
     {% regroup steps by job_app as job_apps %}
+
+    {# job_apps is a list of named tuples, where the tuples' first fields (grouper) are the job apps and the second fields (list) are the steps corresponding to the job app of the first fields #}
+
+    {# accessing the actual Job App objects is a little clunky: #}
+    {# job_apps.X.list.Y.job_app #}
+    {# where job_apps.X is the desired job app's named tuple (can be gotten via for loop), and Y is the index in the named tuple's list for any step in the job app (preferably 0 since the exact step doesn't matter and all job app tuples must have at least one step) #}
+
     <section>
         <h2 class="inline-heading">List of job apps</h2>
         <button class="collapsible-toggle">Show/hide job app list</button>
