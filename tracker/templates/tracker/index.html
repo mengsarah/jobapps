@@ -109,6 +109,12 @@
                         {{ step.get_step_display }} on {{ step.date }}
                             {% if step.done %} (done)
                             {% else %} <strong>(NOT DONE)</strong>
+                                <form method="POST" action="{% url 'tracker:update' %}">
+                                    {% csrf_token %}
+                                    <input type="hidden" name="update-type" value="step-done">
+                                    <input type="hidden" name="step_id" value="{{ step.id }}">
+                                    <input class="update" type="submit" value="Mark done">
+                                </form>
                             {% endif %}
                         {% if step.step == 'resm' %}
                             (filename: {{ step.job_app.resume }})
@@ -124,6 +130,14 @@
                     <p>no steps taken yet</p>
                 {% endfor %}
                 </ul>
+
+                <form method="POST" action="{% url 'tracker:update' %}">
+                    {% csrf_token %}
+                    <input type="hidden" name="update-type" value="job-app-active">
+                    <input type="hidden" name="job_app_id" value="{{ ja_object.id }}">
+                    <input class="update" type="submit" value="Mark {% if ja_object.active %}in{% endif %}active">
+                </form>
+                
                 <a href="#top" class="link-to-top">go to top of page</a>
 
                 {% if not ja_object.active %}

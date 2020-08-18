@@ -76,6 +76,26 @@ def add_new(request):
     messages.error(request, "No data received")
     return redirect("tracker:index")
 
+def update(request):
+    if request.method == 'POST':
+        data = request.POST
+        updated = "" # to be put in a message
+        # mark a step as done
+        if data["update-type"] == "step-done":
+            step = JobAppStep.objects.get(id=data["step_id"])
+            step.done = True
+            updated = step.__str__()
+            step.save()
+        # mark a job app as active or inactive
+        elif data["update-type"] == "job-app-active":
+            job_app = JobApp.objects.get(id=data["job_app_id"])
+            job_app.active = not job_app.active
+            updated = job_app.__str__()
+            job_app.save()
+        messages.success(request, "Updated " + updated)
+    # else (not a POST request)
+    return redirect("tracker:index")
+
 ### VIEWS FOR USERS ###
 
 def index(request):
