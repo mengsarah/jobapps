@@ -109,6 +109,8 @@
                     <button class="collapsible-hide">Hide info</button>
                 </div>
 
+                <a href="/admin/tracker/jobapp/{{ ja_object.id }}/change/" class="link-to-edit">edit in admin panel</a>
+
                 <ul class="table-ish">
                 {% for step in ja_tuple.list %}
                 {% cycle '-light' '' as shade silent %}

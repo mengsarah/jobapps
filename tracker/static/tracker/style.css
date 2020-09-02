@@ -124,9 +124,10 @@ button.collapsible-hide {
     display: block;
 }
 
-a.link-to-top {
+a.link-to-top, a.link-to-edit {
     margin-left: 0.5rem;
     color: inherit;
+    display: block;
 }
 
 .row-red, .row-red-light, .row-blue, .row-blue-light {

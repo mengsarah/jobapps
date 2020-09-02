@@ -25,4 +25,3 @@ The database used for this repo is SQLite, which should come with your Python in
 ## To do
 * fallbacks for no JS
 * add easier way to modify existing information without having to go into the Django admin panel
-* * in the meantime, put links to the relevant pages in the web app
