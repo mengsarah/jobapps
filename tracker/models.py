@@ -45,7 +45,10 @@ class JobApp(models.Model):
     notes = models.TextField(blank=True)
     active = models.BooleanField(default=True)
     def __str__(self):
-        return self.position + " at " + self.company.__str__()
+        activity = ""
+        if not self.active:
+            activity = "(inactive) "
+        return activity + self.position + " at " + self.company.__str__()
 
 class JobAppStep(models.Model):
     job_app = models.ForeignKey(JobApp, on_delete=models.CASCADE)
@@ -53,7 +56,7 @@ class JobAppStep(models.Model):
     date = models.DateField(default=datetime.date.today())
     done = models.BooleanField(default=True)
     def __str__(self):
-        return self.step + " for " + self.job_app.__str__()
+        return self.get_step_display() + " on " + self.date.__str__()
 
 class Contact(models.Model):
     company = models.ForeignKey(Company, on_delete=models.CASCADE)

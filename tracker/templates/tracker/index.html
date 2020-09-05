@@ -58,12 +58,10 @@
             {% for ja in job_apps %}
                 <li class="row-{% cycle 'red' 'blue' %}-light"><a href="#job-app-{{ ja.grouper.id }}">{{ ja.grouper }}
                     {% if ja.list.0.job_app.active %}
-                        (last known step: {{ ja.list.0.get_step_display }} on {{ ja.list.0.date }},
+                        (last known step: {{ ja.list.0 }},
                         {% if ja.list.0.done %} done<!-- workaround to eliminate spaces
                     --->{% else %} <strong>NOT DONE</strong><!--
                     --->{% endif %})<!--
-                --->{% else %}
-                        (inactive)<!--
                 --->{% endif %}</a></li>
             {% endfor %}
             </ul>
@@ -78,7 +76,7 @@
 
         {% cycle 'red' 'blue' as color silent %}
             <div class="row-{{color}}-light">
-                <h3 class="inline-heading" id="job-app-{{ ja_tuple.grouper.id }}">{{ ja_tuple.grouper }} {% if not ja_object.active %}(inactive){% endif %}</h3>
+                <h3 class="inline-heading" id="job-app-{{ ja_tuple.grouper.id }}">{{ ja_tuple.grouper }}</h3>
 
                 {% if not ja_object.active %}
                 <button class="collapsible-toggle">Show/hide job app</button>
@@ -115,7 +113,7 @@
                 {% for step in ja_tuple.list %}
                 {% cycle '-light' '' as shade silent %}
                     <li class="row-{{color}}{{shade}}">
-                        {{ step.get_step_display }} on {{ step.date }}
+                        {{ step }}
                             {% if step.done %} (done)
                             {% else %} <strong>(NOT DONE)</strong>
                                 <form method="POST" action="{% url 'tracker:update' %}">
