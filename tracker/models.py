@@ -1,4 +1,6 @@
 from django.db import models
+from django import forms
+from django.forms import ModelForm
 import datetime
 
 
@@ -31,12 +33,17 @@ class Company(models.Model):
     about = models.TextField()
     website = models.CharField(max_length=200, blank=True)
     class Meta:
+        ordering = ['name']
         verbose_name_plural = "companies"
     def __str__(self):
         return self.name
 
 class JobApp(models.Model):
-    company = models.ForeignKey(Company, on_delete=models.CASCADE)
+    company = models.ForeignKey(
+        Company,
+        on_delete=models.SET_NULL, # save the materials for reference
+        null=True
+    )
     position = models.CharField(max_length=200, blank=True)
     # resume will just be the file name
     resume = models.CharField(max_length=200)
@@ -44,6 +51,10 @@ class JobApp(models.Model):
     other_material = models.TextField(blank=True)
     notes = models.TextField(blank=True)
     active = models.BooleanField(default=True)
+    # get the JobAppStep object of the step with the latest date
+    def last_step(self):
+        steps = JobAppStep.objects.order_by('date').filter(job_app=self)
+        return steps.last() # returns None if no steps
     def __str__(self):
         activity = ""
         if not self.active:
@@ -66,3 +77,10 @@ class Contact(models.Model):
     phone = models.CharField(max_length=200, blank=True)
     def __str__(self):
         return self.name + " at " + self.company.__str__()
+
+class JobAppStepForm(ModelForm):
+    # don't show inactive job apps when adding a new job step
+    job_app = forms.ModelChoiceField(queryset=JobApp.objects.filter(active=True))
+    class Meta:
+        model = JobAppStep
+        fields = '__all__'

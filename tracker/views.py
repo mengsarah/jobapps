@@ -7,9 +7,9 @@ from django.contrib import messages
 from .models import Company, JobApp, JobAppStep, Contact
 
 ### FORM CLASSES ###
+from .models import JobAppStepForm
 CompanyForm = modelform_factory(Company, fields='__all__')
 JobAppForm = modelform_factory(JobApp, fields='__all__')
-JobAppStepForm = modelform_factory(JobAppStep, fields='__all__')
 ContactForm = modelform_factory(Contact, fields='__all__')
 
 ### VIEWS FOR AJAX ###
