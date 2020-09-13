@@ -6,38 +6,38 @@ from django.db import migrations, models
 
 class Migration(migrations.Migration):
 
-    dependencies = [
-        ('tracker', '0001_initial'),
-    ]
+	dependencies = [
+		('tracker', '0001_initial'),
+	]
 
-    operations = [
-        migrations.AlterModelOptions(
-            name='company',
-            options={'verbose_name_plural': 'companies'},
-        ),
-        migrations.AddField(
-            model_name='contact',
-            name='email',
-            field=models.CharField(blank=True, max_length=200),
-        ),
-        migrations.AddField(
-            model_name='contact',
-            name='phone',
-            field=models.CharField(blank=True, max_length=200),
-        ),
-        migrations.AlterField(
-            model_name='contact',
-            name='name',
-            field=models.CharField(max_length=200),
-        ),
-        migrations.AlterField(
-            model_name='jobapp',
-            name='resume',
-            field=models.CharField(max_length=200),
-        ),
-        migrations.AlterField(
-            model_name='jobappstep',
-            name='date',
-            field=models.DateField(default=datetime.date(2020, 8, 9)),
-        ),
-    ]
+	operations = [
+		migrations.AlterModelOptions(
+			name='company',
+			options={'verbose_name_plural': 'companies'},
+		),
+		migrations.AddField(
+			model_name='contact',
+			name='email',
+			field=models.CharField(blank=True, max_length=200),
+		),
+		migrations.AddField(
+			model_name='contact',
+			name='phone',
+			field=models.CharField(blank=True, max_length=200),
+		),
+		migrations.AlterField(
+			model_name='contact',
+			name='name',
+			field=models.CharField(max_length=200),
+		),
+		migrations.AlterField(
+			model_name='jobapp',
+			name='resume',
+			field=models.CharField(max_length=200),
+		),
+		migrations.AlterField(
+			model_name='jobappstep',
+			name='date',
+			field=models.DateField(default=datetime.date(2020, 8, 9)),
+		),
+	]

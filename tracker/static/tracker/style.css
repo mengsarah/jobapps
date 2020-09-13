@@ -1,162 +1,162 @@
 /*** VARIABLES FOR EVERYWHERE ***/
 :root {
-    --dark-blue: darkblue; /* #00008B */
-    --dark-gray: #555;
-    --dark-green: darkgreen; /* #006400 */
-    --dark-red: darkred; /* #8B0000 */
-    --gray: #777;
-    --light-blue: #ADB3E6;
-    --light-gray: #bbb;
-    --light-green: lightgreen; /* #90EE90 */
-    --light-red: lightcoral; /* #F08080 */
+	--dark-blue: darkblue; /* #00008B */
+	--dark-gray: #555;
+	--dark-green: darkgreen; /* #006400 */
+	--dark-red: darkred; /* #8B0000 */
+	--gray: #777;
+	--light-blue: #ADB3E6;
+	--light-gray: #bbb;
+	--light-green: lightgreen; /* #90EE90 */
+	--light-red: lightcoral; /* #F08080 */
 }
 
 /*** FORMATTING AND BASIC STUFF ***/
 
 body {
-    font-size: large;
-    background-color: #eee;
+	font-size: large;
+	background-color: #eee;
 }
 
 h1, h2 {
-    margin: 0.5rem 1rem;
+	margin: 0.5rem 1rem;
 }
 
 h3 {
-    margin: 0.5rem;
-    margin-bottom: 0;
+	margin: 0.5rem;
+	margin-bottom: 0;
 }
 
 label {
-    font-weight: bold;
+	font-weight: bold;
 }
 
 .inline-heading {
-    display: inline-block;
+	display: inline-block;
 }
 
 /*** FUNCTIONAL/SPECIFIC ***/
 
 :focus {
-    outline: 0;
-    box-shadow: 0 0 0 0.1rem, /* hard, round outline */
-                0 0 0.1rem 0.1rem; /* the fuzzy part */
+	outline: 0;
+	box-shadow: 0 0 0 0.1rem, /* hard, round outline */
+				0 0 0.1rem 0.1rem; /* the fuzzy part */
 }
 
 button, input[type="submit"] {
-    border: solid 1px black;
-    border-radius: 0.25rem;
-    background: linear-gradient(white, var(--light-gray));
-    color: black;
-    padding: 0.25rem 0.5rem;
-    margin: 0.25rem;
+	border: solid 1px black;
+	border-radius: 0.25rem;
+	background: linear-gradient(white, var(--light-gray));
+	color: black;
+	padding: 0.25rem 0.5rem;
+	margin: 0.25rem;
 }
 
 button:hover, button:focus,
 input[type="submit"]:hover, input[type="submit"]:focus {
-    background: linear-gradient(var(--light-gray), white);
+	background: linear-gradient(var(--light-gray), white);
 }
 
 button:active, input[type="submit"]:active {
-    background: linear-gradient(var(--dark-gray), var(--gray));
-    color: white;
-    /* box-shadow same as :focus but set the color to stay black */
-    box-shadow: 0 0 0 0.1rem black,
-                0 0 0.1rem 0.1rem black;
+	background: linear-gradient(var(--dark-gray), var(--gray));
+	color: white;
+	/* box-shadow same as :focus but set the color to stay black */
+	box-shadow: 0 0 0 0.1rem black,
+				0 0 0.1rem 0.1rem black;
 }
 
 .collapsible {
-    border: dashed 2px;
-    display: none;
+	border: dashed 2px;
+	display: none;
 }
 
 ul.messages, ul.table-ish {
-    padding-left: 0;
-    margin: 0.5rem;
+	padding-left: 0;
+	margin: 0.5rem;
 }
 
 ul.messages li, ul.table-ish li {
-    list-style: none;
-    padding: 0.5rem 1rem;
+	list-style: none;
+	padding: 0.5rem 1rem;
 }
 
 ul.messages li {
-    border: solid 0.2rem;
-    border-radius: 0.5rem;
+	border: solid 0.2rem;
+	border-radius: 0.5rem;
 }
 
 /* element1 + element2 selects all of element2 that is preceded by element1 */
 /* so in a list: select all but the first one */
 ul.table-ish li + li {
-    border-top: none;
+	border-top: none;
 }
 
 ul.table-ish li a {
-    color: inherit;
+	color: inherit;
 }
 
 .success {
-    background-color: var(--light-green);
-    color: var(--dark-green);
-    border-color: var(--dark-green);
+	background-color: var(--light-green);
+	color: var(--dark-green);
+	border-color: var(--dark-green);
 }
 
 .error {
-    background-color: var(--light-red);
-    color: var(--dark-red);
+	background-color: var(--light-red);
+	color: var(--dark-red);
 }
 
 /*** PURE AESTHETICS ***/
 
 .collapsible {
-    margin: 0.5rem;
+	margin: 0.5rem;
 }
 
 .collapsible > * {
-    margin: 1rem;
+	margin: 1rem;
 }
 
 .collapsible > button {
-    margin: 0.5rem;
+	margin: 0.5rem;
 }
 
 button.collapsible-hide {
-    display: block;
+	display: block;
 }
 
 a.link-to-top, a.link-to-edit {
-    margin-left: 0.5rem;
-    color: inherit;
-    display: inline-block;
+	margin-left: 0.5rem;
+	color: inherit;
+	display: inline-block;
 }
 
 .row-red, .row-red-light, .row-blue, .row-blue-light {
-    margin: 0;
-    padding: 0.5rem 1rem;
+	margin: 0;
+	padding: 0.5rem 1rem;
 }
 
 .row-red, .row-red-light {
-    border: 0.1rem solid var(--dark-red);
-    color: var(--dark-red);
+	border: 0.1rem solid var(--dark-red);
+	color: var(--dark-red);
 }
 
 .row-blue, .row-blue-light {
-    border: 0.1rem solid var(--dark-blue);
-    color: var(--dark-blue);
+	border: 0.1rem solid var(--dark-blue);
+	color: var(--dark-blue);
 }
 
 .row-red {
-    background-color: #faa;
+	background-color: #faa;
 }
 
 .row-red-light {
-    background-color: #fcc;
+	background-color: #fcc;
 }
 
 .row-blue {
-    background-color: #abf;
+	background-color: #abf;
 }
 
 .row-blue-light {
-    background-color: #cdf;
+	background-color: #cdf;
 }

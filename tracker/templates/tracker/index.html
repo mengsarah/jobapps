@@ -3,194 +3,194 @@
 <!doctype html>
 <html>
 <head>
-    <meta charset="utf-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Job App Tracker</title>
-    <link rel="stylesheet" type="text/css" href="{% static 'tracker/style.css' %}">
-    <script src="{% static 'tracker/jquery.js' %}"></script>
+	<meta charset="utf-8">
+	<meta name="viewport" content="width=device-width, initial-scale=1.0">
+	<title>Job App Tracker</title>
+	<link rel="stylesheet" type="text/css" href="{% static 'tracker/style.css' %}">
+	<script src="{% static 'tracker/jquery.js' %}"></script>
 </head>
 <body>
-    <h1 id="top">Job App Tracker</h1>
+	<h1 id="top">Job App Tracker</h1>
 
-    {% if messages %}
-    <h2>Info</h2>
-    <ul class="messages">
-        {% for message in messages %}
-        <li{% if message.tags %} class="{{ message.tags }}"{% endif %}>{{ message }}</li>
-        {% endfor %}
-    </ul>
-    {% endif %}
-    
-    <section>
-        <h2 class="inline-heading">Forms</h2>
-        {% for form in forms %}
-        <button class="collapsible-toggle">Show/hide {{ form.0|lower }} form</button>
-        <div class="collapsible">
-            <form method="POST" action="{% url 'tracker:add_new' %}">
-                {% csrf_token %}
-                <input type="hidden" name="form-type" value="type-{{ form.2 }}">
-                <fieldset>
-                    <legend>{{ form.0 }}</legend>
-                    {% for field in form.1 %}
-                        <div>{{ field.label_tag }} {{ field }}</div>
-                    {% endfor %}
-                    <input type="submit" value="Add">
-                </fieldset>
-            </form>
-            <button class="collapsible-hide">Hide {{ form.0|lower }} form</button>
-        </div>
-        {% endfor %}
-    </section>
-    
-    {% regroup steps by job_app as job_apps %}
+	{% if messages %}
+	<h2>Info</h2>
+	<ul class="messages">
+		{% for message in messages %}
+		<li{% if message.tags %} class="{{ message.tags }}"{% endif %}>{{ message }}</li>
+		{% endfor %}
+	</ul>
+	{% endif %}
+	
+	<section>
+		<h2 class="inline-heading">Forms</h2>
+		{% for form in forms %}
+		<button class="collapsible-toggle">Show/hide {{ form.0|lower }} form</button>
+		<div class="collapsible">
+			<form method="POST" action="{% url 'tracker:add_new' %}">
+				{% csrf_token %}
+				<input type="hidden" name="form-type" value="type-{{ form.2 }}">
+				<fieldset>
+					<legend>{{ form.0 }}</legend>
+					{% for field in form.1 %}
+						<div>{{ field.label_tag }} {{ field }}</div>
+					{% endfor %}
+					<input type="submit" value="Add">
+				</fieldset>
+			</form>
+			<button class="collapsible-hide">Hide {{ form.0|lower }} form</button>
+		</div>
+		{% endfor %}
+	</section>
+	
+	{% regroup steps by job_app as job_apps %}
 
-    {# job_apps is a list of named tuples, where the tuples' first fields (grouper) are the job apps and the second fields (list) are the steps corresponding to the job app of the first fields #}
+	{# job_apps is a list of named tuples, where the tuples' first fields (grouper) are the job apps and the second fields (list) are the steps corresponding to the job app of the first fields #}
 
-    {# accessing the actual Job App objects is a little clunky: #}
-    {# job_apps.X.list.Y.job_app #}
-    {# where job_apps.X is the desired job app's named tuple (can be gotten via for loop), and Y is the index in the named tuple's list for any step in the job app (preferably 0 since the exact step doesn't matter and all job app tuples must have at least one step) #}
+	{# accessing the actual Job App objects is a little clunky: #}
+	{# job_apps.X.list.Y.job_app #}
+	{# where job_apps.X is the desired job app's named tuple (can be gotten via for loop), and Y is the index in the named tuple's list for any step in the job app (preferably 0 since the exact step doesn't matter and all job app tuples must have at least one step) #}
 
-    <section>
-        <h2 class="inline-heading">List of job apps</h2>
-        <button class="collapsible-toggle">Show/hide job app list</button>
-        <div class="collapsible">
-            <ul class="table-ish">
-            {% for ja in job_apps %}
-                <li class="row-{% cycle 'red' 'blue' %}-light"><a href="#job-app-{{ ja.grouper.id }}">{{ ja.grouper }}
-                    {% if ja.list.0.job_app.active %}
-                        (last known step: {{ ja.list.0 }},
-                        {% if ja.list.0.done %} done<!-- workaround to eliminate spaces
-                    --->{% else %} <strong>NOT DONE</strong><!--
-                    --->{% endif %})<!--
-                --->{% endif %}</a></li>
-            {% endfor %}
-            </ul>
-            <button class="collapsible-hide">Hide list of job apps</button>
-        </div>
-    </section>
+	<section>
+		<h2 class="inline-heading">List of job apps</h2>
+		<button class="collapsible-toggle">Show/hide job app list</button>
+		<div class="collapsible">
+			<ul class="table-ish">
+			{% for ja in job_apps %}
+				<li class="row-{% cycle 'red' 'blue' %}-light"><a href="#job-app-{{ ja.grouper.id }}">{{ ja.grouper }}
+					{% if ja.list.0.job_app.active %}
+						(last known step: {{ ja.list.0 }},
+						{% if ja.list.0.done %} done<!-- workaround to eliminate spaces
+					--->{% else %} <strong>NOT DONE</strong><!--
+					--->{% endif %})<!--
+				--->{% endif %}</a></li>
+			{% endfor %}
+			</ul>
+			<button class="collapsible-hide">Hide list of job apps</button>
+		</div>
+	</section>
 
-    <section>
-        <h2>All steps taken</h2>
-        {% for ja_tuple in job_apps %}
-        {% with ja_tuple.list.0.job_app as ja_object %}
+	<section>
+		<h2>All steps taken</h2>
+		{% for ja_tuple in job_apps %}
+		{% with ja_tuple.list.0.job_app as ja_object %}
 
-        {% cycle 'red' 'blue' as color silent %}
-            <div class="row-{{color}}-light">
-                <h3 class="inline-heading" id="job-app-{{ ja_tuple.grouper.id }}">{{ ja_tuple.grouper }}</h3>
+		{% cycle 'red' 'blue' as color silent %}
+			<div class="row-{{color}}-light">
+				<h3 class="inline-heading" id="job-app-{{ ja_tuple.grouper.id }}">{{ ja_tuple.grouper }}</h3>
 
-                {% if not ja_object.active %}
-                <button class="collapsible-toggle">Show/hide job app</button>
-                <div class="collapsible row-{{color}}-light">
-                {% endif %}
+				{% if not ja_object.active %}
+				<button class="collapsible-toggle">Show/hide job app</button>
+				<div class="collapsible row-{{color}}-light">
+				{% endif %}
 
-                <button class="collapsible-toggle">Show/hide misc material</button>
-                <div class="collapsible">
-                    {{ ja_tuple.grouper.other_material|default:"none"|linebreaks }}
-                    <button class="collapsible-hide">Hide misc material</button>
-                </div>
+				<button class="collapsible-toggle">Show/hide misc material</button>
+				<div class="collapsible">
+					{{ ja_tuple.grouper.other_material|default:"none"|linebreaks }}
+					<button class="collapsible-hide">Hide misc material</button>
+				</div>
 
-                <button class="collapsible-toggle">Show/hide notes</button>
-                <div class="collapsible">
-                    {{ ja_tuple.grouper.notes|default:"none"|linebreaks }}
-                    <button class="collapsible-hide">Hide notes</button>
-                </div>
+				<button class="collapsible-toggle">Show/hide notes</button>
+				<div class="collapsible">
+					{{ ja_tuple.grouper.notes|default:"none"|linebreaks }}
+					<button class="collapsible-hide">Hide notes</button>
+				</div>
 
-                <button class="ajax-contacts collapsible-toggle" value="contacts-{{ ja_tuple.grouper.company.id }}" ajax-contacts-url="{% url 'tracker:get_contacts' ja_tuple.grouper.company.id %}">Show/hide contacts for {{ ja_tuple.grouper.company }}</button>
-                <div class="collapsible">
-                    <div id="contacts-{{ ja_tuple.grouper.company.id }}"></div>
-                    <button class="collapsible-hide">Hide contacts</button>
-                </div>
+				<button class="ajax-contacts collapsible-toggle" value="contacts-{{ ja_tuple.grouper.company.id }}" ajax-contacts-url="{% url 'tracker:get_contacts' ja_tuple.grouper.company.id %}">Show/hide contacts for {{ ja_tuple.grouper.company }}</button>
+				<div class="collapsible">
+					<div id="contacts-{{ ja_tuple.grouper.company.id }}"></div>
+					<button class="collapsible-hide">Hide contacts</button>
+				</div>
 
-                <button class="ajax-company collapsible-toggle" value="company-{{ ja_tuple.grouper.company.id }}" ajax-company-url="{% url 'tracker:get_company' ja_tuple.grouper.company.id %}">Show/hide info for {{ ja_tuple.grouper.company }}</button>
-                <div class="collapsible">
-                    <div id="company-{{ ja_tuple.grouper.company.id }}"></div>
-                    <button class="collapsible-hide">Hide info</button>
-                </div>
+				<button class="ajax-company collapsible-toggle" value="company-{{ ja_tuple.grouper.company.id }}" ajax-company-url="{% url 'tracker:get_company' ja_tuple.grouper.company.id %}">Show/hide info for {{ ja_tuple.grouper.company }}</button>
+				<div class="collapsible">
+					<div id="company-{{ ja_tuple.grouper.company.id }}"></div>
+					<button class="collapsible-hide">Hide info</button>
+				</div>
 
-                <a href="/admin/tracker/jobapp/{{ ja_object.id }}/change/" class="link-to-edit">edit in admin panel</a>
+				<a href="/admin/tracker/jobapp/{{ ja_object.id }}/change/" class="link-to-edit">edit in admin panel</a>
 
-                <ul class="table-ish">
-                {% for step in ja_tuple.list %}
-                {% cycle '-light' '' as shade silent %}
-                    <li class="row-{{color}}{{shade}}">
-                        {{ step }}
-                            {% if step.done %} (done)
-                            {% else %} <strong>(NOT DONE)</strong>
-                                <form method="POST" action="{% url 'tracker:update' %}">
-                                    {% csrf_token %}
-                                    <input type="hidden" name="update-type" value="step-done">
-                                    <input type="hidden" name="step_id" value="{{ step.id }}">
-                                    <input class="update" type="submit" value="Mark done">
-                                </form>
-                            {% endif %}
-                        {% if step.step == 'resm' %}
-                            (filename: {{ step.job_app.resume }})
-                        {% elif step.step == 'covr' %}
-                            <button class="collapsible-toggle">Show/hide cover letter</button>
-                            <div class="collapsible">
-                                {{ step.job_app.cover_letter|linebreaks }}
-                                <button class="collapsible-hide">Hide cover letter</button>
-                            </div>
-                        {% endif %}
-                    </li>
-                {% empty %}
-                    <p>no steps taken yet</p>
-                {% endfor %}
-                </ul>
+				<ul class="table-ish">
+				{% for step in ja_tuple.list %}
+				{% cycle '-light' '' as shade silent %}
+					<li class="row-{{color}}{{shade}}">
+						{{ step }}
+							{% if step.done %} (done)
+							{% else %} <strong>(NOT DONE)</strong>
+								<form method="POST" action="{% url 'tracker:update' %}">
+									{% csrf_token %}
+									<input type="hidden" name="update-type" value="step-done">
+									<input type="hidden" name="step_id" value="{{ step.id }}">
+									<input class="update" type="submit" value="Mark done">
+								</form>
+							{% endif %}
+						{% if step.step == 'resm' %}
+							(filename: {{ step.job_app.resume }})
+						{% elif step.step == 'covr' %}
+							<button class="collapsible-toggle">Show/hide cover letter</button>
+							<div class="collapsible">
+								{{ step.job_app.cover_letter|linebreaks }}
+								<button class="collapsible-hide">Hide cover letter</button>
+							</div>
+						{% endif %}
+					</li>
+				{% empty %}
+					<p>no steps taken yet</p>
+				{% endfor %}
+				</ul>
 
-                <form method="POST" action="{% url 'tracker:update' %}">
-                    {% csrf_token %}
-                    <input type="hidden" name="update-type" value="job-app-active">
-                    <input type="hidden" name="job_app_id" value="{{ ja_object.id }}">
-                    <input class="update" type="submit" value="Mark {% if ja_object.active %}in{% endif %}active">
-                </form>
-                
-                <a href="#top" class="link-to-top">go to top of page</a>
+				<form method="POST" action="{% url 'tracker:update' %}">
+					{% csrf_token %}
+					<input type="hidden" name="update-type" value="job-app-active">
+					<input type="hidden" name="job_app_id" value="{{ ja_object.id }}">
+					<input class="update" type="submit" value="Mark {% if ja_object.active %}in{% endif %}active">
+				</form>
+				
+				<a href="#top" class="link-to-top">go to top of page</a>
 
-                {% if not ja_object.active %}
-                <button class="collapsible-hide">Hide job app</button>
-                </div>
-                {% endif %}
-            </div>
-        {% endwith %}
-        {% endfor %}
-    </section>
+				{% if not ja_object.active %}
+				<button class="collapsible-hide">Hide job app</button>
+				</div>
+				{% endif %}
+			</div>
+		{% endwith %}
+		{% endfor %}
+	</section>
 
-    <!-- SCRIPTS -->
-    <script src="{% static 'tracker/ajax.js' %}"></script>
-    <script type="text/javascript">
-        $(document).ready(function() {
-            // can we jQuery? (because $(document).ready() already uses jQuery)
-            // alert("OOGEDY BOOGEDY");
+	<!-- SCRIPTS -->
+	<script src="{% static 'tracker/ajax.js' %}"></script>
+	<script type="text/javascript">
+		$(document).ready(function() {
+			// can we jQuery? (because $(document).ready() already uses jQuery)
+			// alert("OOGEDY BOOGEDY");
 
-            /*** COLLAPSIBLE SHOW/HIDE FUNCTIONALITY ***/
-            function toggleCollapsible() {
-                var content = this.nextElementSibling;
-                if (content.style.display === "block") {
-                    content.style.display = "none";
-                }
-                else {
-                    content.style.display = "block";
-                }
-            }
-            
-            // bind click event handler to the show/hide buttons
-            var collapsible_toggles = document.getElementsByClassName("collapsible-toggle");
-            for (var i = 0; i < collapsible_toggles.length; i++) {
-                collapsible_toggles[i].addEventListener("click", toggleCollapsible);
-            }
+			/*** COLLAPSIBLE SHOW/HIDE FUNCTIONALITY ***/
+			function toggleCollapsible() {
+				var content = this.nextElementSibling;
+				if (content.style.display === "block") {
+					content.style.display = "none";
+				}
+				else {
+					content.style.display = "block";
+				}
+			}
+			
+			// bind click event handler to the show/hide buttons
+			var collapsible_toggles = document.getElementsByClassName("collapsible-toggle");
+			for (var i = 0; i < collapsible_toggles.length; i++) {
+				collapsible_toggles[i].addEventListener("click", toggleCollapsible);
+			}
 
-            /*** HIDE FUNCTIONALITY ***/
-            // hide button needs to be a direct child of whatever is shown/hidden
-            // bind click event handler to the hide buttons
-            var hide_toggles = document.getElementsByClassName("collapsible-hide");
-            for (var i = 0; i < hide_toggles.length; i++) {
-                hide_toggles[i].addEventListener("click", function() {
-                    this.parentNode.style.display = "none";
-                });
-            }
-        });
-    </script>
+			/*** HIDE FUNCTIONALITY ***/
+			// hide button needs to be a direct child of whatever is shown/hidden
+			// bind click event handler to the hide buttons
+			var hide_toggles = document.getElementsByClassName("collapsible-hide");
+			for (var i = 0; i < hide_toggles.length; i++) {
+				hide_toggles[i].addEventListener("click", function() {
+					this.parentNode.style.display = "none";
+				});
+			}
+		});
+	</script>
 
 </body>
 </html>

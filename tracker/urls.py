@@ -5,11 +5,11 @@ from . import views
 app_name = 'tracker'
 
 urlpatterns = [
-    path('', views.index, name='index'),
-    # FOR AJAX
-    path('company/<int:company>', views.get_company_info, name='get_company'),
-    path('contacts/<int:company>', views.get_contacts, name='get_contacts'),
-    # FOR POST
-    path('add_new', views.add_new, name='add_new'),
-    path('update', views.update, name='update'),
+	path('', views.index, name='index'),
+	# FOR AJAX
+	path('company/<int:company>', views.get_company_info, name='get_company'),
+	path('contacts/<int:company>', views.get_contacts, name='get_contacts'),
+	# FOR POST
+	path('add_new', views.add_new, name='add_new'),
+	path('update', views.update, name='update'),
 ]
