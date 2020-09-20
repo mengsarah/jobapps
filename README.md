@@ -25,3 +25,6 @@ The database used for this repo is SQLite, which should come with your Python in
 ## To do
 * fallbacks for no JS
 * add easier way to modify existing information without having to go into the Django admin panel
+
+## Misc
+Favicon is an icon version of [Twemoji](https://twemoji.twitter.com/)'s memo emoji, conveniently grabbed from [favicon.io](https://favicon.io/emoji-favicons/memo/).
