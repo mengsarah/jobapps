@@ -23,6 +23,11 @@
 	{% endif %}
 	
 	<section>
+		<h2>Export Info</h2>
+		<a href="{% url 'tracker:export_steps' %}" download target="_blank">Download job app steps as CSV file</a>
+	</section>
+
+	<section>
 		<h2 class="inline-heading">Forms</h2>
 		{% for form in forms %}
 		<button class="collapsible-toggle">Show/hide {{ form.0|lower }} form</button>

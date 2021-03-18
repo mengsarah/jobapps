@@ -1,7 +1,8 @@
+import csv, datetime
 from django.shortcuts import render, redirect
 from django.forms import modelform_factory
 from django.forms.models import model_to_dict
-from django.http import JsonResponse
+from django.http import JsonResponse, HttpResponse
 from django.contrib import messages
 
 from .models import Company, JobApp, JobAppStep, Contact
@@ -27,6 +28,30 @@ def get_contacts(request, company):
 		if len(contacts) == 0:
 			contacts = "No contacts"
 		return JsonResponse({'contacts': contacts})
+
+### VIEWS FOR FILE OUTPUTS ###
+
+# Export job app steps (JobAppStep objects) as a CSV.
+# Includes some information from JobApp objects (status, resume name)
+# Does not include information from Company or Contact objects.
+def export_csv_job_app_steps(request):
+	response = HttpResponse(content_type='text/csv')
+	response['Content-Disposition'] = 'attachment; filename="Job App Steps {0}.csv"'.format(datetime.date.today())
+
+	# ordered the same as in index()
+	job_app_steps = JobAppStep.objects.order_by('-job_app__active', '-job_app', '-date')
+
+	writer = csv.writer(response)
+	for jas in job_app_steps:
+		done_string = "done"
+		if not jas.done:
+			done_string = "not done"
+		step_string = jas.get_step_display()
+		if jas.step == "resm":
+			step_string = step_string + ": " + jas.job_app.resume
+		writer.writerow([jas.job_app, step_string, jas.date, done_string])
+
+	return response
 
 ### VIEWS FOR POST ###
 
