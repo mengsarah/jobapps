@@ -14,7 +14,7 @@
 	<h1 id="top">Job App Tracker</h1>
 
 	{% if messages %}
-	<h2>Info</h2>
+	<h2>Information</h2>
 	<ul class="messages">
 		{% for message in messages %}
 		<li{% if message.tags %} class="{{ message.tags }}"{% endif %}>{{ message }}</li>
@@ -23,7 +23,7 @@
 	{% endif %}
 	
 	<section>
-		<h2>Export Info</h2>
+		<h2>Export job app info</h2>
 		<a href="{% url 'tracker:export_steps' %}" download target="_blank">Download job app steps as CSV file</a>
 	</section>
 
@@ -75,7 +75,7 @@
 		</div>
 	</section>
 
-	<section>
+	<main>
 		<h2>All steps taken</h2>
 		{% for ja_tuple in job_apps %}
 		{% with ja_tuple.list.0.job_app as ja_object %}
@@ -86,29 +86,29 @@
 
 				{% if not ja_object.active %}
 				<button class="collapsible-toggle">Show/hide job app</button>
-				<div class="collapsible row-{{color}}-light">
 				{% endif %}
+				<div class="steps{% if not ja_object.active %} collapsible inactive{% endif %}">
 
 				<button class="collapsible-toggle">Show/hide misc material</button>
-				<div class="collapsible">
+				<div class="collapsible extra-info">
 					{{ ja_tuple.grouper.other_material|default:"none"|linebreaks }}
 					<button class="collapsible-hide">Hide misc material</button>
 				</div>
 
 				<button class="collapsible-toggle">Show/hide notes</button>
-				<div class="collapsible">
+				<div class="collapsible extra-info">
 					{{ ja_tuple.grouper.notes|default:"none"|linebreaks }}
 					<button class="collapsible-hide">Hide notes</button>
 				</div>
 
 				<button class="ajax-contacts collapsible-toggle" value="contacts-{{ ja_tuple.grouper.company.id }}" ajax-contacts-url="{% url 'tracker:get_contacts' ja_tuple.grouper.company.id %}">Show/hide contacts for {{ ja_tuple.grouper.company }}</button>
-				<div class="collapsible">
+				<div class="collapsible extra-info">
 					<div id="contacts-{{ ja_tuple.grouper.company.id }}"></div>
 					<button class="collapsible-hide">Hide contacts</button>
 				</div>
 
 				<button class="ajax-company collapsible-toggle" value="company-{{ ja_tuple.grouper.company.id }}" ajax-company-url="{% url 'tracker:get_company' ja_tuple.grouper.company.id %}">Show/hide info for {{ ja_tuple.grouper.company }}</button>
-				<div class="collapsible">
+				<div class="collapsible extra-info">
 					<div id="company-{{ ja_tuple.grouper.company.id }}"></div>
 					<button class="collapsible-hide">Hide info</button>
 				</div>
@@ -155,12 +155,12 @@
 
 				{% if not ja_object.active %}
 				<button class="collapsible-hide">Hide job app</button>
-				</div>
 				{% endif %}
+				</div>
 			</div>
 		{% endwith %}
 		{% endfor %}
-	</section>
+	</main>
 
 	<!-- SCRIPTS -->
 	<script src="{% static 'tracker/ajax.js' %}"></script>

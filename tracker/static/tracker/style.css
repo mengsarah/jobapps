@@ -19,7 +19,8 @@ body {
 }
 
 h1, h2 {
-	margin: 0.5rem 1rem;
+	margin: 0;
+	padding: 0.5rem 1rem;
 }
 
 h3 {
@@ -33,6 +34,21 @@ label {
 
 .inline-heading {
 	display: inline-block;
+}
+
+section, main {
+	margin: 0.5rem;
+}
+
+section {
+	border: 0.1rem solid var(--dark-gray);
+	border-radius: 0.3rem;
+	padding: 0.5rem;
+	padding-bottom: 1rem;
+}
+
+section h2 {
+	margin: 0;
 }
 
 /*** FUNCTIONAL/SPECIFIC ***/
@@ -65,8 +81,16 @@ button:active, input[type="submit"]:active {
 				0 0 0.1rem 0.1rem black;
 }
 
+a[download] {
+	border: 0.1rem solid var(--dark-green);
+	border-radius: 0.3rem;
+	background-color: var(--light-green);
+	color: var(--dark-green);
+	padding: 0.5rem;
+	margin: 0 0.5rem;
+}
+
 .collapsible {
-	border: dashed 2px;
 	display: none;
 }
 
@@ -112,16 +136,18 @@ ul.table-ish li a {
 	margin: 0.5rem;
 }
 
-.collapsible > * {
-	margin: 1rem;
-}
-
-.collapsible > button {
-	margin: 0.5rem;
+.collapsible.inactive {
+	margin: 0;
 }
 
 button.collapsible-hide {
 	display: block;
+}
+
+.extra-info {
+	border: dashed 2px;
+	padding-left: 1rem;
+	padding-right: 1rem;
 }
 
 a.link-to-top, a.link-to-edit {
